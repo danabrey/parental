@@ -10,7 +10,7 @@ trait HasChildren
 
     protected $hasChildren = true;
 
-    protected static function registerModelEvent($event, $callback)
+    protected static function registerModelEvent($event, $callback, $priority = 0)
     {
         parent::registerModelEvent($event, $callback);
 
