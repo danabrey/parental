@@ -80,11 +80,10 @@ trait HasChildren
 
     public function belongsTo($related, $foreignKey = null, $ownerKey = null, $relation = null)
     {
-        $instance = tap(new $related, function ($instance) {
-            if (! $instance->getConnectionName()) {
-                $instance->setConnection($this->connection);
-            }
-        });
+        $instance = new $related();
+        if (! $instance->getConnectionName()) {
+            $instance->setConnection($this->connection);
+        }
 
         if (is_null($foreignKey) && $instance->hasParent) {
             $foreignKey = Str::snake($instance->getClassNameForRelationships()).'_'.$instance->getKeyName();
@@ -104,12 +103,11 @@ trait HasChildren
 
     public function belongsToMany($related, $table = null, $foreignPivotKey = null, $relatedPivotKey = null, $parentKey = null, $relatedKey = null, $relation = null)
     {
-        $instance = tap(new $related, function ($instance) {
-            if (! $instance->getConnectionName()) {
-                $instance->setConnection($this->connection);
-            }
-        });
-        
+        $instance = new $related();
+        if (! $instance->getConnectionName()) {
+            $instance->setConnection($this->connection);
+        }
+
         if (is_null($table) && $instance->hasParent) {
             $table = $this->joiningTable($instance->getClassNameForRelationships());
         }
